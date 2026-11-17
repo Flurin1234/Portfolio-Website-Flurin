@@ -1,0 +1,192 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { useLenis } from "lenis/react";
+import Glow from "@/components/Glow";
+import Magnetic from "@/components/Magnetic";
+import RollingText from "@/components/RollingText";
+import { navLinks, site } from "@/content/site";
+
+const ease = [0.76, 0, 0.24, 1] as const;
+
+function Squiggle() {
+  return (
+    <svg
+      viewBox="0 0 100 20"
+      preserveAspectRatio="none"
+      aria-hidden
+      className="pointer-events-none absolute left-0 top-[48%] h-[0.28em] w-full -translate-y-1/2"
+    >
+      <motion.path
+        d="M0 6 H30 C36 6 36 14 42 14 H58 C64 14 64 6 70 6 H100"
+        fill="none"
+        stroke="var(--color-blue)"
+        strokeWidth="3"
+        vectorEffect="non-scaling-stroke"
+        variants={{ rest: { pathLength: 0 }, active: { pathLength: 1 } }}
+        transition={{ duration: 0.6, ease }}
+      />
+    </svg>
+  );
+}
+
+export default function Navbar() {
+  const [open, setOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const pathname = usePathname();
+  const lenis = useLenis(({ scroll, direction }) => {
+    setHidden(direction === 1 && scroll > 160);
+  });
+
+  useEffect(() => {
+    if (open) lenis?.stop();
+    else lenis?.start();
+  }, [open, lenis]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  const close = () => {
+    lenis?.start();
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <motion.header
+        style={{ viewTransitionName: "site-header" }}
+        animate={{ y: hidden && !open ? "-130%" : "0%" }}
+        transition={{ duration: 0.6, ease }}
+        className="pointer-events-none fixed inset-x-0 top-0 z-50 flex items-start justify-between p-4 md:p-5"
+      >
+        <Magnetic className="pointer-events-auto">
+          <a
+            href={`mailto:${site.email}`}
+            className="group/roll flex h-11 items-center gap-2 rounded-lg bg-blue px-4 font-display text-base text-paper"
+          >
+            <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+              <rect x="3" y="5" width="18" height="14" rx="2" />
+              <path d="m3 7 9 6 9-6" />
+            </svg>
+            <RollingText text="Kontakt" />
+          </a>
+        </Magnetic>
+
+        <AnimatePresence>
+          {!open && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="pointer-events-auto absolute left-1/2 top-4 -translate-x-1/2 md:top-5"
+            >
+              <Link href="/" className="group/roll flex h-11 items-center font-serif text-3xl italic text-ink">
+                <RollingText text={site.firstName} />
+              </Link>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <Magnetic className="pointer-events-auto">
+          <button
+            type="button"
+            onClick={() => setOpen((o) => !o)}
+            aria-expanded={open}
+            aria-controls="site-menu"
+            aria-label={open ? "Menü schliessen" : "Menü öffnen"}
+            className={`relative flex size-11 items-center justify-center rounded-lg border transition-colors duration-300 ${
+              open
+                ? "border-blue bg-blue text-paper"
+                : "border-ink/15 bg-paper/70 text-ink backdrop-blur hover:border-ink hover:bg-ink hover:text-paper"
+            }`}
+          >
+            <motion.span
+              className="absolute h-0.5 bg-current"
+              initial={false}
+              animate={open ? { rotate: 45, y: 0, width: 18 } : { rotate: 0, y: -3, width: 20 }}
+              transition={{ duration: 0.5, ease }}
+            />
+            <motion.span
+              className="absolute h-0.5 bg-current"
+              initial={false}
+              animate={open ? { rotate: -45, y: 0, x: 0, width: 18 } : { rotate: 0, y: 3, x: -4, width: 12 }}
+              transition={{ duration: 0.5, ease }}
+            />
+          </button>
+        </Magnetic>
+      </motion.header>
+
+      <AnimatePresence>
+        {open && (
+          <motion.nav
+            id="site-menu"
+            key="menu"
+            initial={{ clipPath: "inset(0% 0% 100% 0%)" }}
+            animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
+            exit={{ clipPath: "inset(0% 0% 100% 0%)" }}
+            transition={{ duration: 0.8, ease }}
+            className="fixed inset-0 z-40 isolate flex flex-col items-center justify-center overflow-hidden bg-cream"
+          >
+            <Glow color="sky" strength={1} className="-bottom-[35vh] -left-[20vw] size-[90vw]" />
+            <Glow color="rose" strength={1} className="-right-[20vw] -top-[25vh] size-[70vw]" />
+
+            <ul className="flex flex-col items-center">
+              {navLinks.map((link, i) => {
+                const active = link.href === pathname;
+                return (
+                  <li key={link.href} className="overflow-hidden">
+                    <motion.div
+                      initial={{ y: "110%" }}
+                      animate={{ y: 0 }}
+                      exit={{ y: "110%" }}
+                      transition={{ duration: 0.8, ease, delay: 0.15 + i * 0.06 }}
+                    >
+                      <motion.div initial="rest" animate={active ? "active" : "rest"} whileHover="active" className="relative">
+                        <Link
+                          href={link.href}
+                          onClick={close}
+                          className={`group/roll relative block font-display text-[clamp(3rem,min(9vw,13vh),7rem)] leading-none text-ink transition-colors duration-300 ${
+                            active ? "text-ink/35" : "hover:text-ink/35"
+                          }`}
+                        >
+                          <RollingText text={link.label} />
+                          <Squiggle />
+                        </Link>
+                      </motion.div>
+                    </motion.div>
+                  </li>
+                );
+              })}
+            </ul>
+
+            <motion.ul
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0, transition: { delay: 0.5, duration: 0.6 } }}
+              exit={{ opacity: 0, transition: { duration: 0.2 } }}
+              className="absolute bottom-8 flex gap-2"
+            >
+              {site.socials.map((s) => (
+                <li key={s.label}>
+                  <a
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group/roll flex h-10 items-center rounded-full border border-ink/15 px-4 text-sm text-ink transition-colors hover:border-blue hover:bg-blue hover:text-paper"
+                  >
+                    <RollingText text={s.label} />
+                  </a>
+                </li>
+              ))}
+            </motion.ul>
+          </motion.nav>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
