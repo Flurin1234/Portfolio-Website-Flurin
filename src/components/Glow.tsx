@@ -1,4 +1,4 @@
-const glowColors = { blue: "88 135 255", taupe: "180 139 125", olive: "126 132 107", sky: "219 230 255", rose: "239 226 221", sage: "227 230 218" } as const;
+const glowColors = { pop: "255 90 31", blue: "88 135 255", taupe: "180 139 125" } as const;
 
 // Soft colour blob; positioned to overlap neighbouring sections so they blend into each other.
 export default function Glow({

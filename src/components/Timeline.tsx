@@ -42,27 +42,21 @@ export default function Timeline() {
     <ol ref={container}>
       {timeline.map((item) => (
         <li key={item.team} className="tl-entry group grid gap-3 md:grid-cols-12 md:gap-6">
-          <p className="tl-fade pt-1 text-sm text-ink/45 transition-colors duration-500 group-[.is-active]:text-blue md:col-span-3">
+          <p className="tl-fade pt-1 text-sm text-ink/45 transition-colors duration-500 group-[.is-active]:text-pop md:col-span-3">
             {item.period}
           </p>
           <div className="relative pb-16 pl-8 md:col-span-9">
             <span aria-hidden className="absolute bottom-0 left-[5px] top-0 w-px bg-ink/10 group-last:hidden">
-              <span className="tl-fill absolute inset-0 origin-top bg-blue" />
+              <span className="tl-fill absolute inset-0 origin-top bg-pop" />
             </span>
             <span
               aria-hidden
-              className="absolute left-0 top-1.5 size-[11px] rounded-full border border-ink/25 bg-paper transition-[background-color,border-color,scale] duration-500 group-[.is-active]:scale-125 group-[.is-active]:border-blue group-[.is-active]:bg-blue"
+              className="absolute left-0 top-1.5 size-[11px] rounded-full border border-ink/25 bg-paper transition-[background-color,border-color,scale] duration-500 group-[.is-active]:scale-125 group-[.is-active]:border-pop group-[.is-active]:bg-pop"
             />
             <h3 className="tl-fade text-xl font-medium tracking-tight md:text-2xl">{item.team}</h3>
-            <p className="tl-fade mt-1 text-blue">{item.role}</p>
+            <p className="tl-fade mt-1 font-medium text-ink/70">{item.role}</p>
             <p className="tl-fade mt-4 max-w-xl text-ink/70">{item.description}</p>
-            <ul className="tl-fade mt-4 flex flex-wrap gap-2">
-              {item.tags.map((tag, i) => (
-                <li key={tag} className={`rounded-full px-3 py-1 text-sm ${["bg-sky", "bg-rose", "bg-sage"][i % 3]}`}>
-                  {tag}
-                </li>
-              ))}
-            </ul>
+            <p className="tl-fade mt-3 text-ink/40">{item.tags.join(" · ")}</p>
           </div>
         </li>
       ))}

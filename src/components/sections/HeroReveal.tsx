@@ -1,103 +1,79 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import Image from "next/image";
+import { useRef } from "react";
 import { gsap, SplitText, useGSAP } from "@/lib/gsap";
 import { useIntroDone } from "@/components/IntroProvider";
-import Media from "@/components/Media";
+import Backdrop from "@/components/Backdrop";
 import { site } from "@/content/site";
 
-// One hero layer; rendered twice (base + revealed) with different colours.
-function HeroLayer({ revealed = false }: { revealed?: boolean }) {
-  const src = revealed ? site.portraitReveal : site.portrait;
+function HeroLayer() {
+  const src = site.portrait;
   return (
-    <div
-      className={`absolute inset-0 flex flex-col justify-end px-4 pb-12 md:px-8 md:pb-14 ${
-        revealed ? "bg-linear-to-br from-blue via-taupe to-olive text-paper" : "bg-cream text-ink"
-      }`}
-    >
-      <div className="absolute bottom-0 left-1/2 h-[72svh] w-[min(72vw,440px)] -translate-x-1/2 overflow-hidden rounded-t-[999px]">
-        <Media
-          src={src}
-          alt={revealed ? "" : `Portrait von ${site.firstName}`}
-          tone={revealed ? "rose" : "sky"}
-          priority={!revealed}
-          sizes="(min-width: 768px) 440px, 72vw"
-          className="hero-portrait size-full rounded-none"
-        />
-      </div>
-      <h1 className="hero-title relative max-w-5xl text-[clamp(3rem,8vw,8rem)] font-medium leading-[0.95] tracking-tighter">
-        Hi, ich bin <span className="font-serif font-normal italic">{site.firstName}</span>.
+    <div className="absolute inset-0 flex flex-col justify-center px-4 pt-16 text-ink md:px-8">
+      {src && (
+        <div className="absolute bottom-0 left-1/2 h-[70svh] w-[min(70vw,420px)] -translate-x-1/2">
+          <Image src={src} alt={`Portrait von ${site.firstName}`} fill priority sizes="420px" className="object-cover object-top" />
+        </div>
+      )}
+      <h1 className="hero-title relative text-[clamp(3.5rem,12.5vw,13rem)] font-medium leading-[1] tracking-tighter">
+        Hi, ich bin
+        <br />
+        <span className="font-serif font-normal italic text-pop">{site.firstName}.</span>
       </h1>
     </div>
   );
 }
 
-// Lando-style reveal: a soft circle follows the cursor and shows the second colour layer.
 export default function HeroReveal() {
   const container = useRef<HTMLElement>(null);
-  const mask = useRef<HTMLDivElement>(null);
   const introDone = useIntroDone();
 
   useGSAP(
     () => {
       if (!introDone) return;
+      gsap.from(".hero-stage", { scale: 1.15, yPercent: 10, duration: 1.8, ease: "expo.out" });
       gsap.utils.toArray<HTMLElement>(".hero-title").forEach((title) => {
-        const split = SplitText.create(title, { type: "chars", mask: "chars" });
-        gsap.from(split.chars, { yPercent: 110, duration: 1.3, ease: "expo.out", stagger: 0.03 });
+        const split = SplitText.create(title, { type: "lines", mask: "lines" });
+        gsap.from(split.lines, { yPercent: 110, rotate: 3, duration: 1.4, ease: "expo.out", stagger: 0.12, delay: 0.15 });
       });
-      gsap.from(".hero-portrait", { yPercent: 25, duration: 1.6, ease: "expo.out" });
+      gsap.from(".hero-badge", { scale: 0, rotate: -180, duration: 1.4, delay: 0.5, ease: "expo.out" });
+
+      const scroll = { trigger: container.current, start: "top top", end: "bottom top", scrub: true };
+      gsap.to(".hero-scroll", { scale: 0.88, borderRadius: "2.5rem", yPercent: 8, ease: "none", scrollTrigger: scroll });
+      gsap.to(".hero-badge-text", { rotate: 360, ease: "none", scrollTrigger: scroll });
     },
     { scope: container, dependencies: [introDone] },
   );
 
-  useEffect(() => {
-    const section = container.current!;
-    const layer = mask.current!;
-    const target = { x: 0, y: 0, r: 0 };
-    const pos = { x: 0, y: 0, r: 0 };
-    const fine = window.matchMedia("(pointer: fine)").matches;
-    const radius = () => Math.max(140, window.innerWidth * 0.14);
-
-    const onMove = (e: PointerEvent) => {
-      const rect = section.getBoundingClientRect();
-      target.x = e.clientX - rect.left;
-      target.y = e.clientY - rect.top;
-      target.r = radius();
-    };
-    const onLeave = () => (target.r = 0);
-
-    const tick = (time: number) => {
-      if (!fine) {
-        const { width, height } = section.getBoundingClientRect();
-        target.x = width / 2 + Math.cos(time * 0.6) * width * 0.25;
-        target.y = height * 0.55 + Math.sin(time * 0.9) * height * 0.15;
-        target.r = radius();
-      }
-      pos.x += (target.x - pos.x) * 0.12;
-      pos.y += (target.y - pos.y) * 0.12;
-      pos.r += (target.r - pos.r) * 0.1;
-      layer.style.clipPath = `circle(${pos.r}px at ${pos.x}px ${pos.y}px)`;
-    };
-
-    section.addEventListener("pointermove", onMove);
-    section.addEventListener("pointerleave", onLeave);
-    gsap.ticker.add(tick);
-    return () => {
-      section.removeEventListener("pointermove", onMove);
-      section.removeEventListener("pointerleave", onLeave);
-      gsap.ticker.remove(tick);
-    };
-  }, []);
-
   return (
     <section
       ref={container}
-      className="relative z-10 h-svh min-h-[560px] overflow-hidden"
+      id="top"
+      className="relative z-10 h-svh min-h-[560px] overflow-hidden bg-[#0d0d12]"
       style={{ visibility: introDone ? undefined : "hidden" }}
     >
-      <HeroLayer />
-      <div ref={mask} aria-hidden className="absolute inset-0" style={{ clipPath: "circle(0px at 50% 50%)" }}>
-        <HeroLayer revealed />
+      <div className="hero-scroll absolute inset-0 overflow-hidden">
+        <div className="hero-stage absolute inset-0 bg-paper">
+          <Backdrop contained />
+          <HeroLayer />
+        </div>
+
+        <div aria-hidden className="hero-badge pointer-events-none absolute bottom-6 right-4 size-24 md:bottom-8 md:right-8 md:size-28">
+          <svg viewBox="0 0 100 100" className="hero-badge-text size-full">
+            <defs>
+              <path id="badge-circle" d="M50,50 m-40,0 a40,40 0 1,1 80,0 a40,40 0 1,1 -80,0" />
+            </defs>
+            <g className="origin-center animate-[spin_16s_linear_infinite]">
+              <text className="fill-ink text-[10px] font-semibold uppercase tracking-[0.25em]">
+                <textPath href="#badge-circle" textLength="248" lengthAdjust="spacing">
+                  Scroll · Scroll · Scroll · Scroll ·
+                </textPath>
+              </text>
+            </g>
+          </svg>
+          <span className="absolute inset-[30%] flex items-center justify-center rounded-full bg-pop text-xl">↓</span>
+        </div>
       </div>
     </section>
   );

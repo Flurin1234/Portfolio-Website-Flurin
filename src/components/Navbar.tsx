@@ -1,11 +1,10 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useLenis } from "lenis/react";
 import Glow from "@/components/Glow";
+import { useIntroDone } from "@/components/IntroProvider";
 import Magnetic from "@/components/Magnetic";
 import RollingText from "@/components/RollingText";
 import { navLinks, site } from "@/content/site";
@@ -23,7 +22,7 @@ function Squiggle() {
       <motion.path
         d="M0 6 H30 C36 6 36 14 42 14 H58 C64 14 64 6 70 6 H100"
         fill="none"
-        stroke="var(--color-blue)"
+        stroke="var(--color-pop)"
         strokeWidth="3"
         vectorEffect="non-scaling-stroke"
         variants={{ rest: { pathLength: 0 }, active: { pathLength: 1 } }}
@@ -36,9 +35,17 @@ function Squiggle() {
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
-  const pathname = usePathname();
+  const [active, setActive] = useState(navLinks[0].href);
+  const introDone = useIntroDone();
   const lenis = useLenis(({ scroll, direction }) => {
     setHidden(direction === 1 && scroll > 160);
+    // The last section whose top has passed the middle of the screen is the current one
+    let current = navLinks[0].href;
+    for (const link of navLinks) {
+      const el = document.querySelector(link.href);
+      if (el && el.getBoundingClientRect().top < window.innerHeight / 2) current = link.href;
+    }
+    setActive(current);
   });
 
   useEffect(() => {
@@ -57,18 +64,25 @@ export default function Navbar() {
     setOpen(false);
   };
 
+  const goTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    close();
+    lenis?.scrollTo(href, { duration: 1.8 });
+  };
+
   return (
     <>
       <motion.header
         style={{ viewTransitionName: "site-header" }}
-        animate={{ y: hidden && !open ? "-130%" : "0%" }}
-        transition={{ duration: 0.6, ease }}
+        initial={{ y: "-130%" }}
+        animate={{ y: !introDone || (hidden && !open) ? "-130%" : "0%" }}
+        transition={{ duration: 0.8, ease }}
         className="pointer-events-none fixed inset-x-0 top-0 z-50 flex items-start justify-between p-4 md:p-5"
       >
         <Magnetic className="pointer-events-auto">
           <a
             href={`mailto:${site.email}`}
-            className="group/roll flex h-11 items-center gap-2 rounded-lg bg-blue px-4 font-display text-base text-paper"
+            className="group/roll flex h-11 items-center gap-2 rounded-lg bg-pop px-4 font-display text-base text-[#0d0d12]"
           >
             <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
               <rect x="3" y="5" width="18" height="14" rx="2" />
@@ -77,21 +91,6 @@ export default function Navbar() {
             <RollingText text="Kontakt" />
           </a>
         </Magnetic>
-
-        <AnimatePresence>
-          {!open && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="pointer-events-auto absolute left-1/2 top-4 -translate-x-1/2 md:top-5"
-            >
-              <Link href="/" className="group/roll flex h-11 items-center font-serif text-3xl italic text-ink">
-                <RollingText text={site.firstName} />
-              </Link>
-            </motion.div>
-          )}
-        </AnimatePresence>
 
         <Magnetic className="pointer-events-auto">
           <button
@@ -102,7 +101,7 @@ export default function Navbar() {
             aria-label={open ? "Menü schliessen" : "Menü öffnen"}
             className={`relative flex size-11 items-center justify-center rounded-lg border transition-colors duration-300 ${
               open
-                ? "border-blue bg-blue text-paper"
+                ? "border-pop bg-pop text-ink"
                 : "border-ink/15 bg-paper/70 text-ink backdrop-blur hover:border-ink hover:bg-ink hover:text-paper"
             }`}
           >
@@ -131,14 +130,14 @@ export default function Navbar() {
             animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
             exit={{ clipPath: "inset(0% 0% 100% 0%)" }}
             transition={{ duration: 0.8, ease }}
-            className="fixed inset-0 z-40 isolate flex flex-col items-center justify-center overflow-hidden bg-cream"
+            className="fixed inset-0 z-40 isolate flex flex-col items-center justify-center overflow-hidden bg-paper"
           >
-            <Glow color="sky" strength={1} className="-bottom-[35vh] -left-[20vw] size-[90vw]" />
-            <Glow color="rose" strength={1} className="-right-[20vw] -top-[25vh] size-[70vw]" />
+            <Glow color="pop" strength={0.12} className="-bottom-[35vh] -left-[20vw] size-[90vw]" />
+            <Glow color="blue" strength={0.1} className="-right-[20vw] -top-[25vh] size-[70vw]" />
 
             <ul className="flex flex-col items-center">
               {navLinks.map((link, i) => {
-                const active = link.href === pathname;
+                const isActive = link.href === active;
                 return (
                   <li key={link.href} className="overflow-hidden">
                     <motion.div
@@ -147,17 +146,17 @@ export default function Navbar() {
                       exit={{ y: "110%" }}
                       transition={{ duration: 0.8, ease, delay: 0.15 + i * 0.06 }}
                     >
-                      <motion.div initial="rest" animate={active ? "active" : "rest"} whileHover="active" className="relative">
-                        <Link
+                      <motion.div initial="rest" animate={isActive ? "active" : "rest"} whileHover="active" className="relative">
+                        <a
                           href={link.href}
-                          onClick={close}
+                          onClick={(e) => goTo(e, link.href)}
                           className={`group/roll relative block font-display text-[clamp(3rem,min(9vw,13vh),7rem)] leading-none text-ink transition-colors duration-300 ${
-                            active ? "text-ink/35" : "hover:text-ink/35"
+                            isActive ? "text-ink/35" : "hover:text-ink/35"
                           }`}
                         >
                           <RollingText text={link.label} />
                           <Squiggle />
-                        </Link>
+                        </a>
                       </motion.div>
                     </motion.div>
                   </li>
@@ -177,7 +176,7 @@ export default function Navbar() {
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group/roll flex h-10 items-center rounded-full border border-ink/15 px-4 text-sm text-ink transition-colors hover:border-blue hover:bg-blue hover:text-paper"
+                    className="group/roll flex h-10 items-center rounded-full border border-ink/15 px-4 text-sm text-ink transition-colors hover:border-pop hover:bg-pop hover:text-ink"
                   >
                     <RollingText text={s.label} />
                   </a>

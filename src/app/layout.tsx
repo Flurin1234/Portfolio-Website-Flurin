@@ -5,6 +5,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import Navbar from "@/components/Navbar";
 import IntroProvider from "@/components/IntroProvider";
 import Cursor from "@/components/Cursor";
+import ScrollFx from "@/components/ScrollFx";
 import { site } from "@/content/site";
 
 const geistSans = Geist({
@@ -46,6 +47,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body>
         <SmoothScroll>
+          <ScrollFx />
           <IntroProvider>
             <Navbar />
             {children}

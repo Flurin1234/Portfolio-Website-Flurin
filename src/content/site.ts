@@ -16,7 +16,7 @@ export type SkillGroup = {
 export type Hobby = {
   title: string;
   caption: string;
-  description: string;
+  description?: string;
   image?: string;
 };
 
@@ -32,9 +32,6 @@ export const site = {
   location: "Schweiz",
   email: "hallo@example.com",
   portrait: undefined as string | undefined,
-  // Second portrait that appears inside the cursor circle on the home page
-  portraitReveal: undefined as string | undefined,
-  headline: "Digitale Erlebnisse mit Liebe zum Detail.",
   statement: [
     { text: "Ich " },
     { text: "gestalte", strong: true },
@@ -53,16 +50,23 @@ export const site = {
 
 export const company = "Swisscom";
 
-// Photos for the home page (put files in /public/images and set `src`, e.g. "/images/berge.jpg")
+// Photos for the home page: [0] wide image, [1] + [2] image pair. Files live in /public/images.
 export const photos: Photo[] = [
-  { alt: "Foto 1" },
-  { alt: "Foto 2" },
-  { alt: "Foto 3" },
-  { alt: "Foto 4" },
-  { alt: "Foto 5" },
-  { alt: "Foto 6" },
-  { alt: "Foto 7" },
-  { alt: "Foto 8" },
+  { src: "/images/marina-nacht.jpg", alt: "Hafen bei Nacht" },
+  { src: "/images/matterhorn-2.jpg", alt: "Matterhorn zwischen Tannen" },
+  { src: "/images/frankfurt.jpg", alt: "Hochhäuser in Frankfurt" },
+];
+
+// Photo band on the home page
+export const marquee: Photo[] = [
+  { src: "/images/strand-mond.jpg", alt: "Mondaufgang über dem Strand" },
+  { src: "/images/saxer-luecke.jpg", alt: "Kreuzberge im Alpstein" },
+  { src: "/images/marina-nacht.jpg", alt: "Hafen bei Nacht" },
+  { src: "/images/matterhorn-1.jpg", alt: "Matterhorn" },
+  { src: "/images/backyard-sonnenuntergang.jpg", alt: "Zielbogen im Sonnenuntergang" },
+  { src: "/images/strand-abend.jpg", alt: "Strand am Abend" },
+  { src: "/images/faelensee-2.jpg", alt: "Ufer am Fälensee" },
+  { src: "/images/lauf-start.jpg", alt: "Am Start eines Laufs" },
 ];
 
 // Newest first
@@ -97,15 +101,43 @@ export const skills: SkillGroup[] = [
   { category: "Sprachen", items: ["Deutsch", "Englisch"] },
 ];
 
+// Text block on the Off Work page; `strong` parts are set in serif italic
+export const offWorkStatement = [
+  { text: "Wenn ich nicht arbeite, bin ich am liebsten " },
+  { text: "draussen", strong: true },
+  { text: " — in den " },
+  { text: "Bergen", strong: true },
+  { text: " oder auf langen " },
+  { text: "Läufen", strong: true },
+  { text: "." },
+];
+
 export const hobbies: Hobby[] = [
-  { title: "Hobby Eins", caption: "Ort, 2025", description: "Was machst du gerne und warum?" },
-  { title: "Hobby Zwei", caption: "Ort, 2024", description: "Was machst du gerne und warum?" },
-  { title: "Hobby Drei", caption: "Ort, 2024", description: "Was machst du gerne und warum?" },
-  { title: "Hobby Vier", caption: "Ort, 2023", description: "Was machst du gerne und warum?" },
+  {
+    title: "Wandern",
+    caption: "Alpstein & Zermatt",
+    image: "/images/saxer-luecke.jpg",
+  },
+  {
+    title: "Laufen",
+    caption: "Backyard Ultra",
+    image: "/images/backyard-sonnenuntergang.jpg",
+  },
+  // Stock photos from Unsplash (free license)
+  {
+    title: "Indoor Velo",
+    caption: "Auf der Rolle",
+    image: "/images/indoor-velo.jpg",
+  },
+  {
+    title: "Schach",
+    caption: "Online & am Brett",
+    image: "/images/schach.jpg",
+  },
 ];
 
 export const navLinks = [
-  { label: "Home", href: "/" },
-  { label: "Work", href: "/work" },
-  { label: "Off Work", href: "/off-work" },
+  { label: "Home", href: "#top" },
+  { label: "Work", href: "#work" },
+  { label: "Off Work", href: "#off-work" },
 ];
