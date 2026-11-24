@@ -188,17 +188,14 @@ const de = {
     {
       title: "Krafttraining",
       description: "Als Ergänzung zum Laufen trainiere ich Beine und Oberkörper – so bleibe ich auch auf langen Strecken und steilen Trails stabil.",
-      facts: [
-        { value: "Beine", label: "Kraft" },
-        { value: "Oberkörper", label: "Stabilität" },
-      ],
+      facts: [{ value: "Beine", label: "& Oberkörper" }],
     },
     {
       title: "Klavier",
       description: "Seit zehn Jahren spiele ich Klavier und durfte auch schon an Konzerten auftreten. An den Tasten kann ich komplett abschalten.",
       facts: [
         { value: "10", label: "Jahre am Klavier" },
-        { value: "Konzerte", label: "Auf der Bühne gespielt" },
+        { value: "Konzerte", label: "gespielt" },
       ],
     },
   ] as Hobby[],
@@ -318,17 +315,14 @@ const en: Content = {
     {
       title: "Strength",
       description: "Alongside running I train my legs and upper body – so I stay stable on long distances and steep trails.",
-      facts: [
-        { value: "Legs", label: "Power" },
-        { value: "Upper body", label: "Stability" },
-      ],
+      facts: [{ value: "Legs", label: "& upper body" }],
     },
     {
       title: "Piano",
       description: "I've been playing the piano for ten years and have already performed at concerts. At the keys I can switch off completely.",
       facts: [
         { value: "10", label: "Years of piano" },
-        { value: "Concerts", label: "Played on stage" },
+        { value: "Concerts", label: "played" },
       ],
     },
   ],

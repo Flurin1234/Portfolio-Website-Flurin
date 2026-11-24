@@ -60,7 +60,7 @@ export default function HeroReveal() {
     <section
       ref={container}
       id="top"
-      className="relative z-10 h-svh min-h-[560px] overflow-hidden bg-[#0d0d12]"
+      className="relative z-10 h-svh min-h-[560px] overflow-hidden bg-paper"
       style={{ visibility: introDone ? undefined : "hidden" }}
     >
       <div className="hero-scroll absolute inset-0 overflow-hidden">

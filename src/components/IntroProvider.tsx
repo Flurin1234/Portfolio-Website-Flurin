@@ -40,8 +40,11 @@ function Preloader({ onReveal, onDone }: { onReveal: () => void; onDone: () => v
         .to(".pl-text", { yPercent: -110, duration: 0.6, ease: "expo.in", stagger: 0.04 })
         .to(".pl-line", { autoAlpha: 0, duration: 0.3 }, "<0.3")
         .call(onReveal)
+        // Dark halves open first and briefly reveal orange ones underneath, which follow a beat later
         .to(".pl-top", { yPercent: -100, duration: 1.1, ease: "expo.inOut" }, "<")
-        .to(".pl-bottom", { yPercent: 100, duration: 1.1, ease: "expo.inOut" }, "<");
+        .to(".pl-bottom", { yPercent: 100, duration: 1.1, ease: "expo.inOut" }, "<")
+        .to(".pl-pop-top", { yPercent: -100, duration: 1.1, ease: "expo.inOut" }, "<0.14")
+        .to(".pl-pop-bottom", { yPercent: 100, duration: 1.1, ease: "expo.inOut" }, "<");
     },
     { scope: root },
   );
@@ -57,10 +60,13 @@ function Preloader({ onReveal, onDone }: { onReveal: () => void; onDone: () => v
 
   return (
     <div ref={root} aria-hidden className="fixed inset-0 z-[90] text-[#ecebe7]">
+      <div className="pl-pop-top absolute inset-x-0 top-0 h-1/2 bg-pop" />
+      <div className="pl-pop-bottom absolute inset-x-0 bottom-0 h-1/2 bg-pop" />
       <div className="pl-top absolute inset-x-0 top-0 h-1/2 bg-[#0d0d12]" />
       <div className="pl-bottom absolute inset-x-0 bottom-0 h-1/2 bg-[#0d0d12]" />
 
-      <div className="absolute inset-x-4 top-1/2 md:inset-x-8">
+      {/* The line sits exactly on the seam between the halves */}
+      <div className="absolute inset-x-4 top-1/2 -translate-y-full md:inset-x-8">
         <div className="flex items-end justify-between pb-3 text-sm">
           <span className="overflow-hidden">
             <span className="pl-text block">
@@ -74,7 +80,7 @@ function Preloader({ onReveal, onDone }: { onReveal: () => void; onDone: () => v
           </span>
         </div>
         <div className="pl-line h-px origin-left bg-[#ecebe7]/20">
-          <div className="pl-fill h-full origin-left scale-x-0 bg-[#ecebe7]" />
+          <div className="pl-fill h-full origin-left scale-x-0 bg-pop" />
         </div>
       </div>
     </div>

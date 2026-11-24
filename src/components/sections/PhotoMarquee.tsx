@@ -7,8 +7,8 @@ import Photo from "@/components/Photo";
 import { marquee } from "@/content/site";
 
 const rows = [
-  ["aspect-[4/3] w-[42vw] md:w-[26vw]", "aspect-[3/4] w-[28vw] md:w-[16vw]", "aspect-square w-[34vw] md:w-[20vw]"],
-  ["aspect-[3/4] w-[28vw] md:w-[16vw]", "aspect-square w-[34vw] md:w-[20vw]", "aspect-[4/3] w-[42vw] md:w-[26vw]"],
+  ["aspect-[4/3] w-[36vw] md:w-[18vw]", "aspect-[3/4] w-[24vw] md:w-[11vw]", "aspect-square w-[28vw] md:w-[14vw]"],
+  ["aspect-[3/4] w-[24vw] md:w-[11vw]", "aspect-square w-[28vw] md:w-[14vw]", "aspect-[4/3] w-[36vw] md:w-[18vw]"],
 ];
 
 // Two rows of photos that always drift in opposite directions; scrolling speeds them up and flips both.
@@ -69,7 +69,7 @@ export default function PhotoMarquee() {
                       alt={copy === 1 ? "" : photo.alt}
                       tint={index}
                       skew
-                      sizes="26vw"
+                      sizes="18vw"
                       className={`shrink-0 ${row[i % row.length]}`}
                     />
                   );
