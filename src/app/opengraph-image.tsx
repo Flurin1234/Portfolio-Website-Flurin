@@ -27,8 +27,8 @@ export default function OpengraphImage() {
           <span>Swisscom</span>
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ fontSize: 132, fontWeight: 700, letterSpacing: -4, lineHeight: 1 }}>
-            {site.firstName} {site.lastName}
+          <div style={{ display: "flex", fontSize: 132, fontWeight: 700, letterSpacing: -4, lineHeight: 1 }}>
+            {`${site.firstName} ${site.lastName}`}
           </div>
           <div style={{ display: "flex", gap: 16, marginTop: 40 }}>
             {roles.map((role, i) => (
