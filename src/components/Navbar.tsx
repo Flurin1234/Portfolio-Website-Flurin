@@ -11,6 +11,10 @@ import { navLinks, site } from "@/content/site";
 
 const ease = [0.76, 0, 0.24, 1] as const;
 
+// Bottom edge of the menu panel: bulges while moving, flat when at rest
+const curved = "M0 0 H100 Q50 200 0 0 Z";
+const flat = "M0 0 H100 Q50 0 0 0 Z";
+
 function Squiggle() {
   return (
     <svg
@@ -34,11 +38,9 @@ function Squiggle() {
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [hidden, setHidden] = useState(false);
   const [active, setActive] = useState(navLinks[0].href);
   const introDone = useIntroDone();
-  const lenis = useLenis(({ scroll, direction }) => {
-    setHidden(direction === 1 && scroll > 160);
+  const lenis = useLenis(() => {
     // The last section whose top has passed the middle of the screen is the current one
     let current = navLinks[0].href;
     for (const link of navLinks) {
@@ -75,7 +77,7 @@ export default function Navbar() {
       <motion.header
         style={{ viewTransitionName: "site-header" }}
         initial={{ y: "-130%" }}
-        animate={{ y: !introDone || (hidden && !open) ? "-130%" : "0%" }}
+        animate={{ y: introDone ? "0%" : "-130%" }}
         transition={{ duration: 0.8, ease }}
         className="pointer-events-none fixed inset-x-0 top-0 z-50 flex items-start justify-between p-4 md:p-5"
       >
@@ -126,63 +128,80 @@ export default function Navbar() {
           <motion.nav
             id="site-menu"
             key="menu"
-            initial={{ clipPath: "inset(0% 0% 100% 0%)" }}
-            animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
-            exit={{ clipPath: "inset(0% 0% 100% 0%)" }}
-            transition={{ duration: 0.8, ease }}
-            className="fixed inset-0 z-40 isolate flex flex-col items-center justify-center overflow-hidden bg-paper"
+            initial={{ y: "-100%" }}
+            animate={{ y: "0%" }}
+            exit={{ y: "-100%", transition: { duration: 0.8, ease, delay: 0.15 } }}
+            transition={{ duration: 0.9, ease }}
+            className="fixed inset-0 z-40"
           >
-            <Glow color="pop" strength={0.12} className="-bottom-[35vh] -left-[20vw] size-[90vw]" />
-            <Glow color="blue" strength={0.1} className="-right-[20vw] -top-[25vh] size-[70vw]" />
-
-            <ul className="flex flex-col items-center">
-              {navLinks.map((link, i) => {
-                const isActive = link.href === active;
-                return (
-                  <li key={link.href} className="overflow-hidden">
-                    <motion.div
-                      initial={{ y: "110%" }}
-                      animate={{ y: 0 }}
-                      exit={{ y: "110%" }}
-                      transition={{ duration: 0.8, ease, delay: 0.15 + i * 0.06 }}
-                    >
-                      <motion.div initial="rest" animate={isActive ? "active" : "rest"} whileHover="active" className="relative">
-                        <a
-                          href={link.href}
-                          onClick={(e) => goTo(e, link.href)}
-                          className={`group/roll relative block font-display text-[clamp(3rem,min(9vw,13vh),7rem)] leading-none text-ink transition-colors duration-300 ${
-                            isActive ? "text-ink/35" : "hover:text-ink/35"
-                          }`}
-                        >
-                          <RollingText text={link.label} />
-                          <Squiggle />
-                        </a>
-                      </motion.div>
-                    </motion.div>
-                  </li>
-                );
-              })}
-            </ul>
-
-            <motion.ul
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0, transition: { delay: 0.5, duration: 0.6 } }}
-              exit={{ opacity: 0, transition: { duration: 0.2 } }}
-              className="absolute bottom-8 flex gap-2"
+            <svg
+              aria-hidden
+              viewBox="0 0 100 100"
+              preserveAspectRatio="none"
+              className="absolute left-0 top-full h-[18vh] w-full fill-paper"
             >
-              {site.socials.map((s) => (
-                <li key={s.label}>
-                  <a
-                    href={s.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group/roll flex h-10 items-center rounded-full border border-ink/15 px-4 text-sm text-ink transition-colors hover:border-pop hover:bg-pop hover:text-ink"
-                  >
-                    <RollingText text={s.label} />
-                  </a>
-                </li>
-              ))}
-            </motion.ul>
+              <motion.path
+                initial={{ d: curved }}
+                animate={{ d: flat }}
+                exit={{ d: curved, transition: { duration: 0.8, ease, delay: 0.15 } }}
+                transition={{ duration: 1, ease }}
+              />
+            </svg>
+
+            <div className="isolate flex size-full flex-col items-center justify-center overflow-hidden bg-paper">
+              <Glow color="pop" strength={0.12} className="-bottom-[35vh] -left-[20vw] size-[90vw]" />
+              <Glow color="blue" strength={0.1} className="-right-[20vw] -top-[25vh] size-[70vw]" />
+
+              <ul className="flex flex-col items-center">
+                {navLinks.map((link, i) => {
+                  const isActive = link.href === active;
+                  return (
+                    <li key={link.href} className="overflow-hidden">
+                      <motion.div
+                        initial={{ y: "110%", rotate: 8 }}
+                        animate={{ y: 0, rotate: 0 }}
+                        exit={{ y: "-110%", rotate: -4, transition: { duration: 0.5, ease, delay: i * 0.04 } }}
+                        transition={{ duration: 1, ease, delay: 0.35 + i * 0.08 }}
+                        className="origin-bottom-left"
+                      >
+                        <motion.div initial="rest" animate={isActive ? "active" : "rest"} whileHover="active" className="relative">
+                          <a
+                            href={link.href}
+                            onClick={(e) => goTo(e, link.href)}
+                            className={`group/roll relative block font-display text-[clamp(3rem,min(9vw,13vh),7rem)] leading-none text-ink transition-colors duration-300 ${
+                              isActive ? "text-ink/35" : "hover:text-ink/35"
+                            }`}
+                          >
+                            <RollingText text={link.label} />
+                            <Squiggle />
+                          </a>
+                        </motion.div>
+                      </motion.div>
+                    </li>
+                  );
+                })}
+              </ul>
+
+              <motion.ul
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0, transition: { delay: 0.7, duration: 0.6 } }}
+                exit={{ opacity: 0, transition: { duration: 0.2 } }}
+                className="absolute bottom-8 flex gap-2"
+              >
+                {site.socials.map((s) => (
+                  <li key={s.label}>
+                    <a
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group/roll flex h-10 items-center rounded-full border border-ink/15 px-4 text-sm text-ink transition-colors hover:border-pop hover:bg-pop hover:text-ink"
+                    >
+                      <RollingText text={s.label} />
+                    </a>
+                  </li>
+                ))}
+              </motion.ul>
+            </div>
           </motion.nav>
         )}
       </AnimatePresence>

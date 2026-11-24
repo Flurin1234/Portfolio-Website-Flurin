@@ -41,7 +41,7 @@ export default function Timeline() {
   return (
     <ol ref={container}>
       {timeline.map((item) => (
-        <li key={item.team} className="tl-entry group grid gap-3 md:grid-cols-12 md:gap-6">
+        <li key={item.period} className="tl-entry group grid gap-3 md:grid-cols-12 md:gap-6">
           <p className="tl-fade pt-1 text-sm text-ink/45 transition-colors duration-500 group-[.is-active]:text-pop md:col-span-3">
             {item.period}
           </p>
