@@ -4,6 +4,8 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { useContent } from "@/components/LangProvider";
+import RollingText from "@/components/RollingText";
+import { sportRepo } from "@/content/site";
 
 // The section pins while scrolling down moves the screenshots sideways until the last one is in view.
 export default function SportApp() {
@@ -12,7 +14,7 @@ export default function SportApp() {
   const track = useRef<HTMLDivElement>(null);
   const bar = useRef<HTMLSpanElement>(null);
   const [index, setIndex] = useState(0);
-  const { sportApp } = useContent();
+  const { sportApp, ui } = useContent();
   const count = sportApp.screens.length;
 
   useGSAP(
@@ -66,6 +68,15 @@ export default function SportApp() {
         <div className="sa-fade md:max-w-sm md:text-right">
           <p className="text-sm text-ink/60">{sportApp.description}</p>
           <p className="mt-2 text-sm text-ink/40">{sportApp.tags.join(" · ")}</p>
+          <a
+            href={sportRepo}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group/roll mt-4 inline-flex h-10 items-center gap-2 rounded-full border border-ink/25 px-4 text-sm transition-colors hover:border-pop hover:bg-pop hover:text-[#0d0d12]"
+          >
+            <RollingText text={ui.code} />
+            <span aria-hidden>↗</span>
+          </a>
         </div>
       </div>
 

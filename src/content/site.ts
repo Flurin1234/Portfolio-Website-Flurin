@@ -84,6 +84,7 @@ export const techStack = [
 ];
 
 const sportTags = ["Python", "SvelteKit", "MySQL", "MCP"];
+export const sportRepo = "https://code.swisscom.com/swisscom/halo/crud-app/crudapps-26-2/python-crud-app-flurin";
 
 const de = {
   greeting: "Hi, ich bin",
@@ -205,6 +206,7 @@ const de = {
   ] as Hobby[],
   ui: {
     contact: "Kontakt",
+    code: "Code ansehen",
     menuOpen: "Menü öffnen",
     menuClose: "Menü schliessen",
     backToTop: "Nach oben ↑",
@@ -336,6 +338,7 @@ const en: Content = {
   ],
   ui: {
     contact: "Contact",
+    code: "View code",
     menuOpen: "Open menu",
     menuClose: "Close menu",
     backToTop: "Back to top ↑",
