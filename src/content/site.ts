@@ -87,8 +87,12 @@ const sportTags = ["Python", "SvelteKit", "MySQL", "MCP"];
 
 const de = {
   greeting: "Hi, ich bin",
+  roles: ["Full-Stack Entwickler", "Webdesigner"],
   role: "Informatiker Applikationsentwickler EFZ",
-  meta: ["3. Lehrjahr bei Swisscom", "seit 08/2024"],
+  meta: [
+    { label: "Lehre", value: "3. Lehrjahr bei Swisscom" },
+    { label: "Seit", value: "August 2024" },
+  ],
   work: {
     intro: `Die Teams, in denen ich bei ${company} gearbeitet habe — und was ich dort gemacht habe.`,
     stations: "Meine Stationen",
@@ -214,8 +218,12 @@ export type Content = typeof de;
 
 const en: Content = {
   greeting: "Hi, I'm",
+  roles: ["Full-stack developer", "Web designer"],
   role: "Software Developer Apprentice (EFZ)",
-  meta: ["3rd year at Swisscom", "since 08/2024"],
+  meta: [
+    { label: "Apprenticeship", value: "3rd year at Swisscom" },
+    { label: "Since", value: "August 2024" },
+  ],
   work: {
     intro: `The teams I have worked in at ${company} — and what I did there.`,
     stations: "Where I've been",

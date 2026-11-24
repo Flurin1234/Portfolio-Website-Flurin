@@ -5,12 +5,13 @@ import { useRef } from "react";
 import { gsap, SplitText, useGSAP } from "@/lib/gsap";
 import { useIntroDone } from "@/components/IntroProvider";
 import Backdrop from "@/components/Backdrop";
+import RollingText from "@/components/RollingText";
 import { useContent } from "@/components/LangProvider";
 import { site } from "@/content/site";
 
 function HeroLayer() {
   const src = site.portrait;
-  const { greeting, meta } = useContent();
+  const { greeting, roles, meta } = useContent();
   return (
     <div className="absolute inset-0 flex flex-col justify-center px-4 pt-16 text-ink md:px-8">
       {src && (
@@ -23,13 +24,26 @@ function HeroLayer() {
         <br />
         <span className="font-serif font-normal italic text-pop">{site.firstName}.</span>
       </h1>
-      <ul className="hero-sub relative mt-8 flex flex-wrap gap-2 text-sm">
-        {meta.map((item) => (
-          <li key={item} className="rounded-full border border-ink/15 px-3 py-1">
-            {item}
+      <ul className="relative mt-8 flex flex-wrap gap-2">
+        {roles.map((role, i) => (
+          <li
+            key={role}
+            className={`hero-sub group/roll flex h-11 items-center rounded-full px-5 font-display text-base md:h-12 md:text-lg ${
+              i === 0 ? "bg-pop text-[#0d0d12]" : "border border-ink/25 text-ink backdrop-blur"
+            }`}
+          >
+            <RollingText text={role} />
           </li>
         ))}
       </ul>
+      <dl className="hero-sub relative mt-8 flex w-fit gap-10 border-t border-ink/15 pt-4 md:gap-14">
+        {meta.map((item) => (
+          <div key={item.label}>
+            <dt className="text-[11px] uppercase tracking-[0.2em] text-ink/45">{item.label}</dt>
+            <dd className="mt-1 text-sm text-ink md:text-base">{item.value}</dd>
+          </div>
+        ))}
+      </dl>
     </div>
   );
 }
