@@ -171,7 +171,7 @@ const de = {
   hobbies: [
     {
       title: "Laufen",
-      description: "Jedes Mal schneller – und schon zweimal Trail in Zermatt.",
+      description: "Laufen ist mein grösstes Hobby. Bei jedem Halbmarathon konnte ich mich verbessern, und in Zermatt war ich schon zweimal bei Trailläufen am Start.",
       facts: [
         { value: "3×", label: "Halbmarathon" },
         { value: "1:38", label: "Bestzeit" },
@@ -179,7 +179,7 @@ const de = {
     },
     {
       title: "Wandern",
-      description: "Am liebsten mit Kollegen in den Bergen.",
+      description: "Am liebsten bin ich mit Kollegen in den Bergen unterwegs. Oben ankommen und den Kopf freibekommen ist der perfekte Ausgleich zum Bildschirm.",
       facts: [
         { value: "Saxer Lücke", label: "Alpstein" },
         { value: "Pilatus", label: "Zentralschweiz" },
@@ -187,7 +187,7 @@ const de = {
     },
     {
       title: "Krafttraining",
-      description: "Als Ergänzung zum Laufen.",
+      description: "Als Ergänzung zum Laufen trainiere ich Beine und Oberkörper – so bleibe ich auch auf langen Strecken und steilen Trails stabil.",
       facts: [
         { value: "Beine", label: "Kraft" },
         { value: "Oberkörper", label: "Stabilität" },
@@ -195,8 +195,11 @@ const de = {
     },
     {
       title: "Klavier",
-      description: "Auch schon an Konzerten gespielt.",
-      facts: [{ value: "10", label: "Jahre" }],
+      description: "Seit zehn Jahren spiele ich Klavier und durfte auch schon an Konzerten auftreten. An den Tasten kann ich komplett abschalten.",
+      facts: [
+        { value: "10", label: "Jahre am Klavier" },
+        { value: "Konzerte", label: "Auf der Bühne gespielt" },
+      ],
     },
   ] as Hobby[],
   ui: {
@@ -298,7 +301,7 @@ const en: Content = {
   hobbies: [
     {
       title: "Running",
-      description: "Faster every time – and two trail runs in Zermatt.",
+      description: "Running is my biggest hobby. I got faster with every half marathon, and I've already started twice at trail runs in Zermatt.",
       facts: [
         { value: "3×", label: "Half marathon" },
         { value: "1:38", label: "Personal best" },
@@ -306,7 +309,7 @@ const en: Content = {
     },
     {
       title: "Hiking",
-      description: "Best with friends, up in the mountains.",
+      description: "I love heading into the mountains with friends. Reaching the top and clearing my head is the perfect balance to the screen.",
       facts: [
         { value: "Saxer Lücke", label: "Alpstein" },
         { value: "Pilatus", label: "Central Switzerland" },
@@ -314,7 +317,7 @@ const en: Content = {
     },
     {
       title: "Strength",
-      description: "Alongside running.",
+      description: "Alongside running I train my legs and upper body – so I stay stable on long distances and steep trails.",
       facts: [
         { value: "Legs", label: "Power" },
         { value: "Upper body", label: "Stability" },
@@ -322,8 +325,11 @@ const en: Content = {
     },
     {
       title: "Piano",
-      description: "Already played at concerts.",
-      facts: [{ value: "10", label: "Years" }],
+      description: "I've been playing the piano for ten years and have already performed at concerts. At the keys I can switch off completely.",
+      facts: [
+        { value: "10", label: "Years of piano" },
+        { value: "Concerts", label: "Played on stage" },
+      ],
     },
   ],
   ui: {

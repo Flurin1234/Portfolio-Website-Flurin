@@ -12,7 +12,7 @@ const themes = [
   { card: "bg-[#0d0d12] text-[#ecebe7]", accent: "text-[#efc2a6]" },
 ];
 
-// Full-width cards that stick and pile up while scrolling; the card underneath shrinks back slightly.
+// Full-width cards that stick and pile up while scrolling: title and short text left, key facts right.
 export default function HobbyStack({ items }: { items: Hobby[] }) {
   const ref = useRef<HTMLElement>(null);
 
@@ -48,31 +48,27 @@ export default function HobbyStack({ items }: { items: Hobby[] }) {
         {items.map((hobby, i) => {
           const theme = themes[i % themes.length];
           return (
-          <Fragment key={hobby.title}>
-          <li className="sticky" style={{ top: `calc(12vh + ${i * 1.25}rem)` }}>
-            <article
-              className={`hs-card flex min-h-[62svh] origin-top flex-col justify-between gap-12 rounded-3xl p-6 md:p-12 ${theme.card}`}
-            >
-              <div>
-                <p className="hs-fade text-sm opacity-60">{String(i + 1).padStart(2, "0")}</p>
-                <h3 className="hs-fade mt-3 font-display text-[clamp(3rem,8vw,7rem)]">{hobby.title}</h3>
-              </div>
-
-              <div className="max-w-xl">
-                <dl className="hs-fade flex flex-wrap gap-x-10 gap-y-4">
-                  {hobby.facts.map((fact) => (
-                    <div key={fact.label} className="flex flex-col-reverse">
-                      <dt className="mt-1 text-sm opacity-60">{fact.label}</dt>
-                      <dd className={`font-display text-[clamp(1.5rem,2.6vw,2.5rem)] ${theme.accent}`}>{fact.value}</dd>
-                    </div>
-                  ))}
-                </dl>
-                <p className="hs-fade mt-6 max-w-md text-sm opacity-75">{hobby.description}</p>
-              </div>
-            </article>
-          </li>
-          <li aria-hidden className="h-[70vh]" />
-          </Fragment>
+            <Fragment key={hobby.title}>
+              <li className="sticky" style={{ top: `calc(12vh + ${i * 1.25}rem)` }}>
+                <article
+                  className={`hs-card grid min-h-[62svh] origin-top gap-10 rounded-3xl p-6 md:grid-cols-2 md:p-12 ${theme.card}`}
+                >
+                  <div className="flex flex-col justify-between gap-8">
+                    <h3 className="hs-fade font-display text-[clamp(3rem,8vw,7rem)]">{hobby.title}</h3>
+                    <p className="hs-fade max-w-sm opacity-80">{hobby.description}</p>
+                  </div>
+                  <dl className="hs-fade flex flex-col justify-end gap-8 md:items-end md:text-right">
+                    {hobby.facts.map((fact) => (
+                      <div key={fact.label} className="flex flex-col-reverse">
+                        <dt className="mt-1 text-sm opacity-60">{fact.label}</dt>
+                        <dd className={`font-display text-[clamp(2.5rem,6vw,5.5rem)] ${theme.accent}`}>{fact.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </article>
+              </li>
+              <li aria-hidden className="h-[70vh]" />
+            </Fragment>
           );
         })}
       </ul>
