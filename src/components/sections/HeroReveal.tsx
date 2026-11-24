@@ -5,10 +5,12 @@ import { useRef } from "react";
 import { gsap, SplitText, useGSAP } from "@/lib/gsap";
 import { useIntroDone } from "@/components/IntroProvider";
 import Backdrop from "@/components/Backdrop";
+import { useContent } from "@/components/LangProvider";
 import { site } from "@/content/site";
 
 function HeroLayer() {
   const src = site.portrait;
+  const { greeting, meta } = useContent();
   return (
     <div className="absolute inset-0 flex flex-col justify-center px-4 pt-16 text-ink md:px-8">
       {src && (
@@ -17,10 +19,17 @@ function HeroLayer() {
         </div>
       )}
       <h1 className="hero-title relative text-[clamp(3.5rem,12.5vw,13rem)] font-medium leading-[1] tracking-tighter">
-        Hi, ich bin
+        {greeting}
         <br />
         <span className="font-serif font-normal italic text-pop">{site.firstName}.</span>
       </h1>
+      <ul className="hero-sub relative mt-8 flex flex-wrap gap-2 text-sm">
+        {meta.map((item) => (
+          <li key={item} className="rounded-full border border-ink/15 px-3 py-1">
+            {item}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -38,6 +47,7 @@ export default function HeroReveal() {
         gsap.from(split.lines, { yPercent: 110, rotate: 3, duration: 1.4, ease: "expo.out", stagger: 0.12, delay: 0.15 });
       });
       gsap.from(".hero-badge", { scale: 0, rotate: -180, duration: 1.4, delay: 0.5, ease: "expo.out" });
+      gsap.from(".hero-sub", { y: 24, autoAlpha: 0, duration: 1.2, delay: 0.6, ease: "expo.out", stagger: 0.1 });
 
       const scroll = { trigger: container.current, start: "top top", end: "bottom top", scrub: true };
       gsap.to(".hero-scroll", { scale: 0.88, borderRadius: "2.5rem", yPercent: 8, ease: "none", scrollTrigger: scroll });

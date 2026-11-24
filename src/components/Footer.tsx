@@ -4,11 +4,13 @@ import { useRef } from "react";
 import { useLenis } from "lenis/react";
 import RollingText from "@/components/RollingText";
 import { useDarkTheme } from "@/components/ThemeSection";
+import { useContent } from "@/components/LangProvider";
 import { site } from "@/content/site";
 
 export default function Footer() {
   const lenis = useLenis();
   const ref = useRef<HTMLElement>(null);
+  const { ui } = useContent();
   useDarkTheme(ref, "top 80%");
 
   return (
@@ -48,7 +50,7 @@ export default function Footer() {
           © {site.firstName} {site.lastName}
         </span>
         <button type="button" onClick={() => lenis?.scrollTo(0, { duration: 2 })} className="group/roll hover:text-ink">
-          <RollingText text="Nach oben ↑" />
+          <RollingText text={ui.backToTop} />
         </button>
       </div>
     </footer>

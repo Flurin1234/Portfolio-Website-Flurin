@@ -6,7 +6,8 @@ import Navbar from "@/components/Navbar";
 import IntroProvider from "@/components/IntroProvider";
 import Cursor from "@/components/Cursor";
 import ScrollFx from "@/components/ScrollFx";
-import { site } from "@/content/site";
+import { LangProvider } from "@/components/LangProvider";
+import { content, site } from "@/content/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
     default: `${site.firstName} ${site.lastName} — Portfolio`,
     template: `%s — ${site.firstName} ${site.lastName}`,
   },
-  description: `${site.role} — Portfolio von ${site.firstName} ${site.lastName}`,
+  description: `${content.de.role} — Portfolio von ${site.firstName} ${site.lastName}`,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -48,10 +49,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body>
         <SmoothScroll>
           <ScrollFx />
-          <IntroProvider>
-            <Navbar />
-            {children}
-          </IntroProvider>
+          <LangProvider>
+            <IntroProvider>
+              <Navbar />
+              {children}
+            </IntroProvider>
+          </LangProvider>
         </SmoothScroll>
         <Cursor />
       </body>

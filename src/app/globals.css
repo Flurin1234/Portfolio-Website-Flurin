@@ -99,23 +99,6 @@ body::after {
   }
 }
 
-/* Keyword band in the hobby rows (HobbyRows) */
-.hb-marquee {
-  animation: hb-marquee 22s linear infinite;
-}
-
-@keyframes hb-marquee {
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hb-marquee {
-    animation: none;
-  }
-}
-
 /* Page transitions (React <ViewTransition>) */
 ::view-transition {
   pointer-events: none;

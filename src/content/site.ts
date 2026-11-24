@@ -1,4 +1,6 @@
-// All personal content lives here; edit this file to update the site.
+// All personal content lives here; texts exist in German (de) and English (en).
+
+export type Lang = "de" | "en";
 
 export type TimelineEntry = {
   period: string;
@@ -17,10 +19,8 @@ export type SkillGroup = {
 
 export type Hobby = {
   title: string;
-  caption: string;
   description: string;
-  // Shown in the moving band when hovering the row
-  keywords: string[];
+  facts: { value: string; label: string }[];
 };
 
 export type Photo = {
@@ -30,104 +30,33 @@ export type Photo = {
 
 export const site = {
   firstName: "Flurin",
-  lastName: "Nachname",
-  role: "Deine Rolle / Beruf",
-  location: "Schweiz",
-  email: "hallo@example.com",
+  lastName: "Manella",
+  email: "flurin.manella@icloud.com",
   portrait: undefined as string | undefined,
-  statement: [
-    { text: "Ich " },
-    { text: "gestalte", strong: true },
-    { text: " und " },
-    { text: "entwickle", strong: true },
-    { text: " Dinge, die Menschen gerne benutzen — mit Fokus auf " },
-    { text: "Details", strong: true },
-    { text: ", sauberen Code und gutes Design." },
-  ],
   socials: [
-    { label: "LinkedIn", href: "https://www.linkedin.com/" },
-    { label: "GitHub", href: "https://github.com/" },
-    { label: "Instagram", href: "https://www.instagram.com/" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/flurin-manella-01b455379/" },
+    { label: "GitHub", href: "https://github.com/Flurin1234" },
   ],
 };
 
 export const company = "Swisscom";
 
-// Photo band on the home page
+export const navLinks = [
+  { label: "Home", href: "#top" },
+  { label: "Work", href: "#work" },
+  { label: "Off Work", href: "#off-work" },
+];
+
+// Photo band at the end of Off Work
 export const marquee: Photo[] = [
-  { src: "/images/strand-mond.jpg", alt: "Mondaufgang über dem Strand" },
-  { src: "/images/saxer-luecke.jpg", alt: "Kreuzberge im Alpstein" },
-  { src: "/images/marina-nacht.jpg", alt: "Hafen bei Nacht" },
-  { src: "/images/matterhorn-1.jpg", alt: "Matterhorn" },
-  { src: "/images/backyard-sonnenuntergang.jpg", alt: "Zielbogen im Sonnenuntergang" },
-  { src: "/images/strand-abend.jpg", alt: "Strand am Abend" },
-  { src: "/images/faelensee-2.jpg", alt: "Ufer am Fälensee" },
-  { src: "/images/lauf-start.jpg", alt: "Am Start eines Laufs" },
-];
-
-// Newest first
-export const timeline: TimelineEntry[] = [
-  {
-    period: "08/2026 — heute",
-    team: "Team Halo",
-    role: "Full-Stack Entwickler",
-    description:
-      "Mit Python, SvelteKit, MySQL und MCP habe ich eine App zum Monitoring von Trainingseinheiten gebaut – für Laufen, Radfahren, Krafttraining, Wandern und Trailrunning, ein Thema, das mich auch privat begeistert. Zudem entwickle ich Agents für Bernard, die KI von Swisscom, die beim Kompetenzmanagement unterstützen.",
-    tags: ["Python", "SvelteKit", "MySQL", "MCP", "KI-Agents"],
-  },
-  {
-    period: "02/2026 — 08/2026",
-    team: "SiteLab",
-    role: "Full-Stack Entwickler & Teamleitung",
-    description:
-      "Ich habe Tailwind CSS gelernt und mein Wissen in SDX, JavaScript und TypeScript vertieft. Dabei habe ich an der Team-Website und an NexTrack mitgearbeitet, einem Tool, das Lernende beim Management ihrer Kompetenzen unterstützt. Ausserdem habe ich die Leitung im Team übernommen und Meetings sowie Besuchstage geführt.",
-    tags: ["Tailwind CSS", "SDX", "TypeScript", "Leadership"],
-  },
-  {
-    period: "08/2025 — 02/2026",
-    team: "Apps Team",
-    role: "Backend Entwickler",
-    description:
-      "Mein Einstieg ins Backend: Mit NestJS und MySQL habe ich gelernt, wie Server und Datenbanken zusammenspielen. Daraus ist eine eigene CRUD-App mit Authentifizierung und Autorisierung entstanden.",
-    tags: ["NestJS", "MySQL", "CRUD", "Auth"],
-  },
-  {
-    period: "02/2025 — 08/2025",
-    team: "Codemix2",
-    role: "Frontend Entwickler",
-    description:
-      "Hier habe ich TypeScript gelernt und mein Wissen in JavaScript vertieft. In mehreren Gruppenaufträgen habe ich im Team entwickelt und eine Website vor den Lernbegleitern präsentiert.",
-    tags: ["TypeScript", "JavaScript", "Teamarbeit", "Präsentation"],
-  },
-  {
-    period: "08/2024 — 02/2025",
-    team: "Minions",
-    role: "Frontend Entwickler",
-    description:
-      "Mein Start in den Arbeitsalltag bei Swisscom. Mit HTML, CSS, JavaScript und Angular habe ich meine ersten Sprachen kennengelernt, mit Scrum gearbeitet und verschiedene kleine Projekte umgesetzt.",
-    tags: ["HTML", "CSS", "JavaScript", "Angular", "Scrum"],
-  },
-];
-
-export const skills: SkillGroup[] = [
-  {
-    category: "KI & Agents",
-    highlight: "Agents für Bernard, die KI von Swisscom, und MCP für meine eigene Sport-App.",
-    items: ["MCP", "KI-Agents", "Bernard"],
-  },
-  {
-    category: "Frontend",
-    items: ["HTML & CSS", "JavaScript", "TypeScript", "Angular", "SvelteKit", "Tailwind CSS", "SDX"],
-  },
-  {
-    category: "Backend & Daten",
-    items: ["NestJS", "Python", "MySQL", "CRUD-APIs", "Authentifizierung", "Autorisierung"],
-  },
-  {
-    category: "Arbeitsweise",
-    items: ["Scrum", "Teamleitung", "Meetings leiten", "Präsentieren"],
-  },
-  { category: "Tools", items: ["Git", "VS Code", "Linux"] },
+  { src: "/images/strand-mond.jpg", alt: "" },
+  { src: "/images/saxer-luecke.jpg", alt: "" },
+  { src: "/images/marina-nacht.jpg", alt: "" },
+  { src: "/images/matterhorn-1.jpg", alt: "" },
+  { src: "/images/backyard-sonnenuntergang.jpg", alt: "" },
+  { src: "/images/strand-abend.jpg", alt: "" },
+  { src: "/images/faelensee-2.jpg", alt: "" },
+  { src: "/images/lauf-start.jpg", alt: "" },
 ];
 
 // Names in the moving tech band below the skills
@@ -136,83 +65,276 @@ export const techStack = [
   "CSS",
   "JavaScript",
   "TypeScript",
-  "Angular",
+  "React",
+  "Next.js",
+  "Vue",
   "SvelteKit",
   "Tailwind CSS",
-  "SDX",
   "NestJS",
   "Python",
+  "Java",
+  "Spring Boot",
   "MySQL",
+  "PostgreSQL",
+  "MongoDB",
+  "Docker",
+  "AWS",
   "MCP",
+  "Figma",
 ];
 
-// Screenshots in /public/images/sport-app; the live app will be switched off, so only images are shown
-export const sportApp = {
-  name: "Sport-App",
-  eyebrow: "Wo Arbeit und Sport sich treffen",
-  description:
-    "Eine App, mit der ich meine Trainingseinheiten erfasse und auswerte – vom Laufen über Radfahren und Krafttraining bis zum Wandern und Trailrunning. Die Daten kommen automatisch über intervals.icu, und im Chat beantwortet Max, ein KI-Coach, Fragen zu meinem Training. Entstanden im Team Halo, weil mich das Thema auch privat nicht loslässt.",
-  tags: ["Python", "SvelteKit", "MySQL", "MCP"],
-  screens: [
-    { src: "/images/sport-app/home.jpg", label: "Wochenübersicht", alt: "Startseite mit Wochenübersicht, Distanz-Diagramm und Gesundheitswerten" },
-    { src: "/images/sport-app/activities.jpg", label: "Aktivitäten", alt: "Liste der Läufe mit Distanzverlauf über mehrere Wochen" },
-    { src: "/images/sport-app/performance.jpg", label: "Trainingsstatus", alt: "Form, Fitness und Ermüdung als Diagramm" },
-    { src: "/images/sport-app/health.jpg", label: "Schlaf", alt: "Schlaf-Score der letzten 30 Tage" },
-    { src: "/images/sport-app/chat.jpg", label: "KI-Coach Max", alt: "Chat mit dem KI-Coach Max" },
-  ],
+const sportTags = ["Python", "SvelteKit", "MySQL", "MCP"];
+
+const de = {
+  greeting: "Hi, ich bin",
+  role: "Informatiker Applikationsentwickler EFZ",
+  meta: ["3. Lehrjahr bei Swisscom", "seit 08/2024"],
+  work: {
+    intro: `Die Teams, in denen ich bei ${company} gearbeitet habe — und was ich dort gemacht habe.`,
+    stations: "Meine Stationen",
+    skills: "Womit ich arbeite",
+    highlight: "Highlight",
+  },
+  offWork: { intro: "Was ich mache, wenn ich nicht gerade arbeite." },
+  timeline: [
+    {
+      period: "08/2026 — heute",
+      team: "Team Halo",
+      role: "Full-Stack Entwickler",
+      description:
+        "Mit Python, SvelteKit, MySQL und MCP habe ich eine App zum Monitoring von Trainingseinheiten gebaut – für Laufen, Radfahren, Krafttraining, Wandern und Trailrunning, ein Thema, das mich auch privat begeistert. Zudem entwickle ich Agents für Bernard, die KI von Swisscom, die beim Kompetenzmanagement unterstützen.",
+      tags: ["Python", "SvelteKit", "MySQL", "MCP", "KI-Agents"],
+    },
+    {
+      period: "02/2026 — 08/2026",
+      team: "SiteLab",
+      role: "Full-Stack Entwickler & Teamleitung",
+      description:
+        "Ich habe Tailwind CSS gelernt und mein Wissen in SDX, JavaScript und TypeScript vertieft. Dabei habe ich an der Team-Website und an NexTrack mitgearbeitet, einem Tool, das Lernende beim Management ihrer Kompetenzen unterstützt. Ausserdem habe ich die Leitung im Team übernommen und Meetings sowie Besuchstage geführt.",
+      tags: ["Tailwind CSS", "SDX", "TypeScript", "Leadership"],
+    },
+    {
+      period: "08/2025 — 02/2026",
+      team: "Apps Team",
+      role: "Backend Entwickler",
+      description:
+        "Mein Einstieg ins Backend: Mit NestJS und MySQL habe ich gelernt, wie Server und Datenbanken zusammenspielen. Daraus ist eine eigene CRUD-App mit Authentifizierung und Autorisierung entstanden.",
+      tags: ["NestJS", "MySQL", "CRUD", "Auth"],
+    },
+    {
+      period: "02/2025 — 08/2025",
+      team: "Codemix2",
+      role: "Frontend Entwickler",
+      description:
+        "Hier habe ich TypeScript gelernt und mein Wissen in JavaScript vertieft. In mehreren Gruppenaufträgen habe ich im Team entwickelt und eine Website vor den Lernbegleitern präsentiert.",
+      tags: ["TypeScript", "JavaScript", "Teamarbeit", "Präsentation"],
+    },
+    {
+      period: "08/2024 — 02/2025",
+      team: "Minions",
+      role: "Frontend Entwickler",
+      description:
+        "Mein Start in den Arbeitsalltag bei Swisscom. Mit HTML, CSS, JavaScript und Angular habe ich meine ersten Sprachen kennengelernt, mit Scrum gearbeitet und verschiedene kleine Projekte umgesetzt.",
+      tags: ["HTML", "CSS", "JavaScript", "Angular", "Scrum"],
+    },
+  ] as TimelineEntry[],
+  skills: [
+    {
+      category: "KI & Agents",
+      highlight: "Agents für Bernard, die KI von Swisscom, und MCP für meine eigene Sport-App.",
+      items: ["MCP", "KI-Agents", "Ollama / lokale Modelle", "AWS Bedrock"],
+    },
+    {
+      category: "Frontend",
+      items: ["HTML", "CSS", "JavaScript", "TypeScript", "React", "Next.js", "Vue", "SvelteKit", "Tailwind CSS", "SDX", "Responsive Design"],
+    },
+    { category: "Backend", items: ["NestJS", "Python", "Java", "Spring Boot", "Auth (JWT / OAuth / SSO)"] },
+    { category: "Datenbanken", items: ["MySQL", "MariaDB", "PostgreSQL", "MongoDB", "Prisma"] },
+    { category: "DevOps & Tools", items: ["Git", "GitHub", "GitLab", "CI/CD", "Docker", "AWS", "Linux", "Bash", "VS Code", "Jira"] },
+    { category: "Design", items: ["Figma", "UI Design", "UX Design", "Canva"] },
+    { category: "Arbeitsweise", items: ["Scrum", "Kanban", "Code Reviews"] },
+    { category: "Sprachen", items: ["Deutsch", "Englisch", "Französisch"] },
+  ] as SkillGroup[],
+  sportApp: {
+    name: "Sport-App",
+    description: "Meine eigene App, um Trainings auszuwerten – mit KI-Coach im Chat. Gebaut im Team Halo.",
+    tags: sportTags,
+    screens: [
+      { src: "/images/sport-app/home.jpg", label: "Wochenübersicht", alt: "Startseite mit Wochenübersicht, Distanz-Diagramm und Gesundheitswerten" },
+      { src: "/images/sport-app/charts.jpg", label: "Detailansicht", alt: "Detailansicht eines Laufs mit Diagrammen zu Pace und Herzfrequenz" },
+      { src: "/images/sport-app/activities.jpg", label: "Aktivitäten", alt: "Liste der Läufe mit Distanzverlauf über mehrere Wochen" },
+      { src: "/images/sport-app/performance.jpg", label: "Trainingsstatus", alt: "Form, Fitness und Ermüdung als Diagramm" },
+      { src: "/images/sport-app/health.jpg", label: "Schlaf", alt: "Schlaf-Score der letzten 30 Tage" },
+      { src: "/images/sport-app/chat.jpg", label: "KI-Coach Max", alt: "Chat mit dem KI-Coach Max" },
+    ],
+  },
+  hobbies: [
+    {
+      title: "Laufen",
+      description: "Jedes Mal schneller – und schon zweimal Trail in Zermatt.",
+      facts: [
+        { value: "3×", label: "Halbmarathon" },
+        { value: "1:38", label: "Bestzeit" },
+      ],
+    },
+    {
+      title: "Wandern",
+      description: "Am liebsten mit Kollegen in den Bergen.",
+      facts: [
+        { value: "Saxer Lücke", label: "Alpstein" },
+        { value: "Pilatus", label: "Zentralschweiz" },
+      ],
+    },
+    {
+      title: "Krafttraining",
+      description: "Als Ergänzung zum Laufen.",
+      facts: [
+        { value: "Beine", label: "Kraft" },
+        { value: "Oberkörper", label: "Stabilität" },
+      ],
+    },
+    {
+      title: "Klavier",
+      description: "Auch schon an Konzerten gespielt.",
+      facts: [{ value: "10", label: "Jahre" }],
+    },
+  ] as Hobby[],
+  ui: {
+    contact: "Kontakt",
+    menuOpen: "Menü öffnen",
+    menuClose: "Menü schliessen",
+    backToTop: "Nach oben ↑",
+    prev: "Vorheriger Screenshot",
+    next: "Nächster Screenshot",
+    language: "Sprache",
+  },
 };
 
-// Text block on the Off Work page; `strong` parts are set in serif italic
-export const offWorkStatement = [
-  { text: "Wenn ich nicht arbeite, bin ich am liebsten " },
-  { text: "draussen", strong: true },
-  { text: " — in den " },
-  { text: "Bergen", strong: true },
-  { text: " oder auf langen " },
-  { text: "Läufen", strong: true },
-  { text: "." },
-];
+export type Content = typeof de;
 
-export const hobbies: Hobby[] = [
-  {
-    title: "Laufen",
-    caption: "Halbmarathon, Trail & Ultra",
-    description:
-      "Mein grösstes Hobby. Mehrere Halbmarathons mit einer Bestzeit von 1:38, Trailläufe in Zermatt und ein Backyard Ultra, bei dem man jede Stunde eine Runde läuft, bis nur noch eine Person übrig ist.",
-    keywords: ["Halbmarathon 1:38", "Trail Zermatt", "Backyard Ultra", "21,1 km"],
+const en: Content = {
+  greeting: "Hi, I'm",
+  role: "Software Developer Apprentice (EFZ)",
+  meta: ["3rd year at Swisscom", "since 08/2024"],
+  work: {
+    intro: `The teams I have worked in at ${company} — and what I did there.`,
+    stations: "Where I've been",
+    skills: "What I work with",
+    highlight: "Highlight",
   },
-  {
-    title: "Wandern",
-    caption: "Saxer Lücke & viele andere Berge",
-    description:
-      "Ich bin überall unterwegs, wo es nach oben geht – von der Saxer Lücke im Alpstein bis zu Touren in ganz anderen Bergregionen. Oben ankommen und den Kopf freibekommen ist der perfekte Ausgleich zum Bildschirm.",
-    keywords: ["Saxer Lücke", "Alpstein", "Gipfel", "Höhenmeter"],
+  offWork: { intro: "What I do when I'm not working." },
+  timeline: [
+    {
+      period: "08/2026 — today",
+      team: "Team Halo",
+      role: "Full-Stack Developer",
+      description:
+        "Using Python, SvelteKit, MySQL and MCP, I built an app for monitoring training sessions – running, cycling, strength training, hiking and trail running, a topic I'm passionate about outside of work too. I also build agents for Bernard, Swisscom's AI, that support competence management.",
+      tags: ["Python", "SvelteKit", "MySQL", "MCP", "AI agents"],
+    },
+    {
+      period: "02/2026 — 08/2026",
+      team: "SiteLab",
+      role: "Full-Stack Developer & Team Lead",
+      description:
+        "I learned Tailwind CSS and deepened my knowledge of SDX, JavaScript and TypeScript. I worked on the team website and on NexTrack, a tool that helps apprentices manage their competences. I also took over leading the team and ran meetings and visitor days.",
+      tags: ["Tailwind CSS", "SDX", "TypeScript", "Leadership"],
+    },
+    {
+      period: "08/2025 — 02/2026",
+      team: "Apps Team",
+      role: "Backend Developer",
+      description:
+        "My start in backend development: with NestJS and MySQL I learned how servers and databases work together. The result was my own CRUD app with authentication and authorisation.",
+      tags: ["NestJS", "MySQL", "CRUD", "Auth"],
+    },
+    {
+      period: "02/2025 — 08/2025",
+      team: "Codemix2",
+      role: "Frontend Developer",
+      description:
+        "Here I learned TypeScript and deepened my JavaScript skills. I built things together with my team in several group assignments and presented a website to our apprenticeship coaches.",
+      tags: ["TypeScript", "JavaScript", "Teamwork", "Presenting"],
+    },
+    {
+      period: "08/2024 — 02/2025",
+      team: "Minions",
+      role: "Frontend Developer",
+      description:
+        "My start into everyday work at Swisscom. I got to know my first languages – HTML, CSS, JavaScript and Angular – worked with Scrum and built various small projects.",
+      tags: ["HTML", "CSS", "JavaScript", "Angular", "Scrum"],
+    },
+  ],
+  skills: [
+    {
+      category: "AI & Agents",
+      highlight: "Agents for Bernard, Swisscom's AI, and MCP for my own sports app.",
+      items: ["MCP", "AI agents", "Ollama / local models", "AWS Bedrock"],
+    },
+    {
+      category: "Frontend",
+      items: ["HTML", "CSS", "JavaScript", "TypeScript", "React", "Next.js", "Vue", "SvelteKit", "Tailwind CSS", "SDX", "Responsive design"],
+    },
+    { category: "Backend", items: ["NestJS", "Python", "Java", "Spring Boot", "Auth (JWT / OAuth / SSO)"] },
+    { category: "Databases", items: ["MySQL", "MariaDB", "PostgreSQL", "MongoDB", "Prisma"] },
+    { category: "DevOps & Tools", items: ["Git", "GitHub", "GitLab", "CI/CD", "Docker", "AWS", "Linux", "Bash", "VS Code", "Jira"] },
+    { category: "Design", items: ["Figma", "UI design", "UX design", "Canva"] },
+    { category: "How I work", items: ["Scrum", "Kanban", "Code reviews"] },
+    { category: "Languages", items: ["German", "English", "French"] },
+  ],
+  sportApp: {
+    name: "Sports App",
+    description: "My own app for analysing training – with an AI coach in the chat. Built in Team Halo.",
+    tags: sportTags,
+    screens: [
+      { src: "/images/sport-app/home.jpg", label: "Weekly overview", alt: "Home page with weekly overview, distance chart and health stats" },
+      { src: "/images/sport-app/charts.jpg", label: "Activity details", alt: "Detail view of a run with pace and heart rate charts" },
+      { src: "/images/sport-app/activities.jpg", label: "Activities", alt: "List of runs with distance over several weeks" },
+      { src: "/images/sport-app/performance.jpg", label: "Training status", alt: "Form, fitness and fatigue chart" },
+      { src: "/images/sport-app/health.jpg", label: "Sleep", alt: "Sleep score of the last 30 days" },
+      { src: "/images/sport-app/chat.jpg", label: "AI coach Max", alt: "Chat with the AI coach Max" },
+    ],
   },
-  {
-    title: "Krafttraining",
-    caption: "Die Basis für alles andere",
-    description:
-      "Krafttraining gehört fest in meine Woche. Es macht mich stabiler auf langen Läufen und in den Bergen – und Fortschritte direkt zu spüren, motiviert mich jedes Mal aufs Neue.",
-    keywords: ["Gym", "Stabilität", "Progression", "Basis fürs Laufen"],
+  hobbies: [
+    {
+      title: "Running",
+      description: "Faster every time – and two trail runs in Zermatt.",
+      facts: [
+        { value: "3×", label: "Half marathon" },
+        { value: "1:38", label: "Personal best" },
+      ],
+    },
+    {
+      title: "Hiking",
+      description: "Best with friends, up in the mountains.",
+      facts: [
+        { value: "Saxer Lücke", label: "Alpstein" },
+        { value: "Pilatus", label: "Central Switzerland" },
+      ],
+    },
+    {
+      title: "Strength",
+      description: "Alongside running.",
+      facts: [
+        { value: "Legs", label: "Power" },
+        { value: "Upper body", label: "Stability" },
+      ],
+    },
+    {
+      title: "Piano",
+      description: "Already played at concerts.",
+      facts: [{ value: "10", label: "Years" }],
+    },
+  ],
+  ui: {
+    contact: "Contact",
+    menuOpen: "Open menu",
+    menuClose: "Close menu",
+    backToTop: "Back to top ↑",
+    prev: "Previous screenshot",
+    next: "Next screenshot",
+    language: "Language",
   },
-  {
-    title: "Gaming",
-    caption: "Abschalten nach einem langen Tag",
-    description:
-      "Gaming ist für mich der perfekte Ausgleich am Abend. Und als Entwickler finde ich es spannend, wie gute Spiele gestaltet und gebaut sind.",
-    keywords: ["Abschalten", "Strategie", "Teamplay", "Game Design"],
-  },
-  {
-    title: "Schach",
-    caption: "Online & am Brett",
-    description:
-      "Schach trainiert genau das, was ich auch beim Programmieren brauche: vorausdenken, Muster erkennen und geduldig bleiben.",
-    keywords: ["Vorausdenken", "Taktik", "Muster", "Geduld"],
-  },
-];
+};
 
-export const navLinks = [
-  { label: "Home", href: "#top" },
-  { label: "Work", href: "#work" },
-  { label: "Off Work", href: "#off-work" },
-];
+export const content: Record<Lang, Content> = { de, en };

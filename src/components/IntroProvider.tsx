@@ -3,14 +3,13 @@
 import { createContext, useCallback, useContext, useRef, useState } from "react";
 import { useLenis } from "lenis/react";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
-import Glow from "@/components/Glow";
 import { site } from "@/content/site";
 
 const IntroContext = createContext(false);
 
 export const useIntroDone = () => useContext(IntroContext);
 
-// The name rises in letter by letter and fills up in a soft wave while the percentage counts, then the panels lift away.
+// A thin line fills across the middle with name and percentage on it, then the screen splits open along the line.
 function Preloader({ onReveal, onDone }: { onReveal: () => void; onDone: () => void }) {
   const root = useRef<HTMLDivElement>(null);
   const lenis = useLenis();
@@ -19,12 +18,12 @@ function Preloader({ onReveal, onDone }: { onReveal: () => void; onDone: () => v
     () => {
       const count = root.current!.querySelector<HTMLElement>(".pl-count")!;
       const counter = { value: 0 };
-      const duration = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0.3 : 2.4;
-      const letters = site.firstName.length;
+      const duration = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0.3 : 2.2;
 
       gsap
         .timeline({ onComplete: onDone })
-        .from(".pl-char", { yPercent: 105, duration: 1, ease: "expo.out", stagger: 0.05 })
+        .from(".pl-text", { yPercent: 110, duration: 0.9, ease: "expo.out", stagger: 0.06 })
+        .from(".pl-line", { scaleX: 0, duration: 0.9, ease: "expo.out" }, 0)
         .to(
           counter,
           {
@@ -32,23 +31,17 @@ function Preloader({ onReveal, onDone }: { onReveal: () => void; onDone: () => v
             duration,
             ease: "power2.inOut",
             onUpdate: () => {
-              count.textContent = String(Math.round(counter.value));
+              count.textContent = String(Math.round(counter.value)).padStart(2, "0");
             },
           },
           0.3,
         )
-        .to(".pl-bar", { scaleX: 1, duration, ease: "power2.inOut" }, 0.3)
-        .to(
-          ".pl-fill",
-          { clipPath: "inset(0% 0% 0% 0%)", duration: duration * 0.7, ease: "power2.inOut", stagger: (duration * 0.3) / Math.max(1, letters - 1) },
-          0.3,
-        )
-        .to(".pl-char", { yPercent: -105, duration: 0.7, ease: "expo.in", stagger: 0.03 })
-        .to(".pl-meta", { autoAlpha: 0, duration: 0.4 }, "<")
+        .to(".pl-fill", { scaleX: 1, duration, ease: "power2.inOut" }, 0.3)
+        .to(".pl-text", { yPercent: -110, duration: 0.6, ease: "expo.in", stagger: 0.04 })
+        .to(".pl-line", { autoAlpha: 0, duration: 0.3 }, "<0.3")
         .call(onReveal)
-        // Dark panel lifts first, the orange one follows a beat later
-        .to(".pl-dark", { clipPath: "inset(0% 0% 100% 0%)", duration: 1.1, ease: "expo.inOut" }, "<0.3")
-        .to(".pl-pop", { clipPath: "inset(0% 0% 100% 0%)", duration: 1.1, ease: "expo.inOut" }, "<0.15");
+        .to(".pl-top", { yPercent: -100, duration: 1.1, ease: "expo.inOut" }, "<")
+        .to(".pl-bottom", { yPercent: 100, duration: 1.1, ease: "expo.inOut" }, "<");
     },
     { scope: root },
   );
@@ -63,32 +56,25 @@ function Preloader({ onReveal, onDone }: { onReveal: () => void; onDone: () => v
   }, [lenis]);
 
   return (
-    <div ref={root} aria-hidden className="fixed inset-0 z-[90]">
-      <div className="pl-pop absolute inset-0 bg-pop" style={{ clipPath: "inset(0% 0% 0% 0%)" }} />
-      <div
-        className="pl-dark absolute inset-0 isolate flex items-center justify-center overflow-hidden bg-ink text-paper"
-        style={{ clipPath: "inset(0% 0% 0% 0%)" }}
-      >
-        <Glow color="pop" strength={0.22} className="-bottom-[40vh] -left-[20vw] size-[90vw]" />
+    <div ref={root} aria-hidden className="fixed inset-0 z-[90] text-[#ecebe7]">
+      <div className="pl-top absolute inset-x-0 top-0 h-1/2 bg-[#0d0d12]" />
+      <div className="pl-bottom absolute inset-x-0 bottom-0 h-1/2 bg-[#0d0d12]" />
 
-        <p className="flex overflow-hidden font-display text-[26vw] leading-[0.8] md:text-[20vw]">
-          {site.firstName.split("").map((char, i) => (
-            <span key={i} className="pl-char relative inline-block">
-              <span className="block text-transparent [-webkit-text-stroke:1px_rgba(236,235,231,0.25)]">{char}</span>
-              <span className="pl-fill absolute inset-0 text-pop" style={{ clipPath: "inset(100% 0% 0% 0%)" }}>
-                {char}
-              </span>
+      <div className="absolute inset-x-4 top-1/2 md:inset-x-8">
+        <div className="flex items-end justify-between pb-3 text-sm">
+          <span className="overflow-hidden">
+            <span className="pl-text block">
+              {site.firstName} {site.lastName}
             </span>
-          ))}
-        </p>
-
-        <div className="pl-meta absolute inset-x-4 bottom-6 md:inset-x-8 md:bottom-8">
-          <p className="text-right font-mono text-sm tabular-nums text-paper/60">
-            <span className="pl-count">0</span>%
-          </p>
-          <div className="mt-3 h-px bg-paper/15">
-            <div className="pl-bar h-full origin-left scale-x-0 bg-pop" />
-          </div>
+          </span>
+          <span className="overflow-hidden">
+            <span className="pl-text block tabular-nums">
+              <span className="pl-count">00</span>
+            </span>
+          </span>
+        </div>
+        <div className="pl-line h-px origin-left bg-[#ecebe7]/20">
+          <div className="pl-fill h-full origin-left scale-x-0 bg-[#ecebe7]" />
         </div>
       </div>
     </div>

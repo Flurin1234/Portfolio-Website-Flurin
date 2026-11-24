@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useLenis } from "lenis/react";
 import Glow from "@/components/Glow";
 import { useIntroDone } from "@/components/IntroProvider";
+import { LangSwitch, useContent } from "@/components/LangProvider";
 import Magnetic from "@/components/Magnetic";
 import RollingText from "@/components/RollingText";
 import { navLinks, site } from "@/content/site";
@@ -40,6 +41,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(navLinks[0].href);
   const introDone = useIntroDone();
+  const { ui } = useContent();
   const lenis = useLenis(() => {
     // The last section whose top has passed the middle of the screen is the current one
     let current = navLinks[0].href;
@@ -90,17 +92,19 @@ export default function Navbar() {
               <rect x="3" y="5" width="18" height="14" rx="2" />
               <path d="m3 7 9 6 9-6" />
             </svg>
-            <RollingText text="Kontakt" />
+            <RollingText text={ui.contact} />
           </a>
         </Magnetic>
 
-        <Magnetic className="pointer-events-auto">
+        <div className="pointer-events-auto flex items-center gap-2">
+          <LangSwitch className="hidden sm:flex" />
+          <Magnetic>
           <button
             type="button"
             onClick={() => setOpen((o) => !o)}
             aria-expanded={open}
             aria-controls="site-menu"
-            aria-label={open ? "Menü schliessen" : "Menü öffnen"}
+            aria-label={open ? ui.menuClose : ui.menuOpen}
             className={`relative flex size-11 items-center justify-center rounded-lg border transition-colors duration-300 ${
               open
                 ? "border-pop bg-pop text-ink"
@@ -120,7 +124,8 @@ export default function Navbar() {
               transition={{ duration: 0.5, ease }}
             />
           </button>
-        </Magnetic>
+          </Magnetic>
+        </div>
       </motion.header>
 
       <AnimatePresence>
@@ -182,25 +187,28 @@ export default function Navbar() {
                 })}
               </ul>
 
-              <motion.ul
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0, transition: { delay: 0.7, duration: 0.6 } }}
                 exit={{ opacity: 0, transition: { duration: 0.2 } }}
-                className="absolute bottom-8 flex gap-2"
+                className="absolute bottom-8 flex flex-col items-center gap-4"
               >
-                {site.socials.map((s) => (
-                  <li key={s.label}>
-                    <a
-                      href={s.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group/roll flex h-10 items-center rounded-full border border-ink/15 px-4 text-sm text-ink transition-colors hover:border-pop hover:bg-pop hover:text-ink"
-                    >
-                      <RollingText text={s.label} />
-                    </a>
-                  </li>
-                ))}
-              </motion.ul>
+                <LangSwitch />
+                <ul className="flex gap-2">
+                  {site.socials.map((s) => (
+                    <li key={s.label}>
+                      <a
+                        href={s.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/roll flex h-10 items-center rounded-full border border-ink/15 px-4 text-sm text-ink transition-colors hover:border-pop hover:bg-pop hover:text-ink"
+                      >
+                        <RollingText text={s.label} />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
             </div>
           </motion.nav>
         )}

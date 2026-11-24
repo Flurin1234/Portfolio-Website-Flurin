@@ -4,10 +4,11 @@ import { useRef } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
 import SectionHeading from "@/components/SectionHeading";
 import TechMarquee from "@/components/sections/TechMarquee";
-import { skills } from "@/content/site";
+import { useContent } from "@/components/LangProvider";
 
 export default function Skills() {
   const container = useRef<HTMLElement>(null);
+  const { skills, work } = useContent();
 
   useGSAP(
     () => {
@@ -26,7 +27,7 @@ export default function Skills() {
   return (
     <section ref={container} className="pb-32 pt-16">
       <div className="px-4 md:px-8">
-        <SectionHeading title="Womit ich arbeite" />
+        <SectionHeading title={work.skills} />
         <ul className="skill-grid grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {skills.map((group, i) => (
             <li
@@ -39,7 +40,7 @@ export default function Skills() {
               <div className="relative flex h-full flex-col transition-colors duration-500 group-hover:text-[#0d0d12]">
                 <p className="text-sm opacity-50">
                   {String(i + 1).padStart(2, "0")}
-                  {group.highlight && " · Highlight"}
+                  {group.highlight && ` · ${work.highlight}`}
                 </p>
                 <h3 className="mt-3 font-display text-4xl md:text-5xl">{group.category}</h3>
                 {group.highlight && <p className="mt-4 max-w-md opacity-70">{group.highlight}</p>}

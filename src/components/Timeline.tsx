@@ -2,11 +2,12 @@
 
 import { useRef } from "react";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
-import { timeline } from "@/content/site";
+import { useContent } from "@/components/LangProvider";
 
 // Vertical timeline; the line fills and dots light up as you scroll past each entry.
 export default function Timeline() {
   const container = useRef<HTMLOListElement>(null);
+  const { timeline } = useContent();
 
   useGSAP(
     () => {
